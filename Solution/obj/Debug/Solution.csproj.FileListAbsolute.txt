@@ -1,0 +1,6 @@
+c:\users\ilya_mez\documents\visual studio 2015\Projects\Solution\Solution\bin\Debug\Solution.exe.config
+c:\users\ilya_mez\documents\visual studio 2015\Projects\Solution\Solution\bin\Debug\Solution.exe
+c:\users\ilya_mez\documents\visual studio 2015\Projects\Solution\Solution\bin\Debug\Solution.pdb
+c:\users\ilya_mez\documents\visual studio 2015\Projects\Solution\Solution\obj\Debug\Solution.csprojResolveAssemblyReference.cache
+c:\users\ilya_mez\documents\visual studio 2015\Projects\Solution\Solution\obj\Debug\Solution.exe
+c:\users\ilya_mez\documents\visual studio 2015\Projects\Solution\Solution\obj\Debug\Solution.pdb
