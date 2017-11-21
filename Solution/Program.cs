@@ -131,28 +131,6 @@ namespace Solution
             }
             return maxarea;
         }
-        /*public static IList<IList<int>> ThreeSum(int[] nums)
-        {
-            IList<IList<int>> ans = new List<IList<int>>();
-            List<int> noIndex = new List<int>();
-            for (int i = 0; i < nums.Length; i++)
-                for (int j = i + 1; j < nums.Length; j++)
-                {
-                    noIndex = new List<int>() { nums[i], nums[j] };
-                    noIndex.Sort();
-                    if (ans.Where(l => l[0] == noIndex[0] && l[1] == noIndex[1]).Count() == 0)
-                        for (int k = j + 1; k < nums.Length; k++)
-                        {
-                            noIndex.Add(nums[k] ;
-                            noIndex.Sort();
-                            if (noIndex.Sum() == 0)
-                            {
-                                ans.Add(noIndex);
-                            }
-                        }
-                }
-            return ans;
-        }*/
         public static string LongestCommonPrefix(string[] strs)
         {
             if (strs.Length == 0)
@@ -234,14 +212,214 @@ namespace Solution
             }
             return ans;
         }
-        public static string Convert(string s, int numRows)
+        public static int RemoveDuplicates(int[] nums)
         {
-            
+            if (nums.Length == 0)
+                return 0;
+            int i = 0;
+            for (int j = 1; j < nums.Length; j++)
+            {
+                if (nums[j] != nums[i])
+                {
+                    i++;
+                    nums[i] = nums[j];
+                }
+            }
+            return i + 1;
         }
+        public static bool IsValid(string s)
+        {
+            Dictionary<char, char> dict = new Dictionary<char, char>() { { ')', '(' }, { ']', '[' }, { '}', '{' } };
+            Stack<char> stack = new Stack<char>();
+            char c;
+            for (int i = 0; i < s.Length; i++)
+            {
+                c = s[i];
+                if (dict.Values.Contains(c))
+                    stack.Push(c);
+                else if (stack.Count != 0)
+                {
+                    if (dict[c] != stack.Pop())
+                        return false;
+                }
+                else return false;
+            }
+            return stack.Count == 0;
+        }
+        public ListNode MergeTwoLists(ListNode l1, ListNode l2)
+        {
+            ListNode res = new ListNode(0);
+            ListNode tail = res;
+
+            while (l1 != null && l2 != null)
+            {
+                if (l1.val < l2.val)
+                {
+                    tail.next = new ListNode(l1.val);
+                    l1 = l1.next;
+                }
+                else
+                {
+                    tail.next = new ListNode(l2.val);
+                    l2 = l2.next;
+                }
+                tail = tail.next;
+            }
+
+            tail.next = (l1 != null) ? l1 : l2;
+            return res.next;
+        }
+        /*public static IList<string> GenerateParenthesis(int n)
+        {
+            if (n == 0)
+                return new List<string>();
+            if (n == 1)
+                return new List<string>() { "()" };
+            if (n == 2)
+                return new List<string>() { "(())", "()()" };
+            List<string> res = new List<string>();
+            IList<string> subRes = GenerateParenthesis(n - 1).ToList();
+            for (int i = 0; i < subRes.Count; i++)
+                res.AddRange(new List<string>() { "()" + subRes[i], subRes[i] + "()", "(" + subRes[i] + ")" });
+            if (n > 3)
+            {
+                if (n % 2 != 0)
+                {
+                    IList<string> subRes1 = GenerateParenthesis((n - 2) / 2 + 1).ToList();
+                    IList<string> subRes2 = GenerateParenthesis((n - 2) / 2).ToList();
+                    for (int i = 0; i < subRes1.Count; i++)
+                    {
+                        res.Add("(" + subRes1[i] + ")" + "(" + (subRes2.Count <= i ? "()" : subRes2[i]) + ")");
+                        res.Add("(" + (subRes2.Count <= i ? "()" : subRes2[i]) + ")" + "(" + subRes1[i] + ")");
+                    }
+                }
+                else
+                {
+                    subRes = GenerateParenthesis((n - 2) / 2).ToList();
+                    for (int i = 0; i < subRes.Count; i++)
+                    {
+                        res.Add("(" + subRes[i] + ")" + "(" + subRes[i] + ")");
+                    }
+                }               
+            }
+            return res.Distinct().ToList();
+        }*/
+
+        public static int RemoveElement(int[] nums, int val)
+        {
+            int len = 0;
+            int lastGood = 0;
+            for (int i = nums.Count() - 1; i >= 0; i--)
+                if (nums[i] != val)
+                {
+                    lastGood = i;
+                    len++;
+                    break;
+                }
+            for (int i = lastGood - 1; i >= 0; i--)
+            {
+                if (nums[i] == val)
+                {
+                    nums[i] = nums[lastGood];
+                    nums[lastGood] = val;
+                    lastGood = lastGood - 1;
+                }
+                else
+                    len++;
+            }
+            return len;
+        }
+        public static string CountAndSay(int n)
+        {
+            if (n == 0)
+                return "";
+            if (n == 1)
+                return "1";
+            string s = CountAndSay(n - 1);
+            char c = s[0];
+            int count = 1;
+            string ans = "";
+            for (int i = 1; i < s.Length; i++)
+            {
+                if (c == s[i])
+                    count++;
+                else
+                {
+                    ans += count.ToString() + c;
+                    c = s[i];
+                    count = 1;
+                }
+            }
+            ans += count.ToString() + c;
+            return ans;
+        }
+        public static int SearchInsert(int[] nums, int target)
+        {
+            for (int i = 0; i < nums.Count(); i++)
+            {
+                if (nums[i] >= target)
+                    return i;
+            }
+            return nums.Count();
+        }
+        static Dictionary<char, string> dictPhone = new Dictionary<char, string>()
+            {
+                { '1', "" },
+                { '2', "abc" },
+                { '3', "def" },
+                { '4', "ghi" },
+                { '5', "jkl" },
+                { '6', "mno" },
+                { '7', "pqrs" },
+                { '8', "tuv" },
+                { '9', "wxyz" },
+                { '*', "+" },
+                { '0', " " },
+                { '#', "" },
+            };
+        public static IList<string> LetterCombinations(string digits)
+        {
+            List<string> ans = new List<string>();
+            if (digits.Length == 0)
+                return ans;
+            if (digits.Length == 1)
+            {
+                foreach (char c in dictPhone[digits[0]])
+                    ans.Add(c.ToString());
+                return ans;
+            }
+            char d = digits[0];
+            IList<string> a = LetterCombinations(digits.Remove(0, 1));
+            foreach (char c in dictPhone[d])
+                foreach (string comb in a)
+                    ans.Add(c.ToString() + comb);
+            return ans;
+        }
+		public static int StrStr(string haystack, string needle) {
+			if (needle.Length == 0)
+				return 0;
+			int index = 0;
+			int retIndex = 0;
+			for (int i = 0; i < haystack.Length; i++) {
+				if (haystack[i] == needle[index]) {
+					if (index == 0)
+						retIndex = i;
+					index++;
+					if (index == needle.Length)
+						return i - index + 1;
+				}
+				else
+				{
+					if (index > 0)
+						i = retIndex;
+					index = 0;                
+				}
+			}
+			return -1;
+		}
         static void Main(string[] args)
         {
-            Console.WriteLine(RomanToInt("DCXXI"));
-            Console.WriteLine(IntToRoman(2349));
+            IList<string> a = LetterCombinations("23");
         }
     }
 }
