@@ -417,6 +417,71 @@ namespace Solution
 			}
 			return -1;
 		}
+		public static int[] PlusOne(int[] digits) {
+			int n = digits.Length;
+			for(int i = n - 1; i >= 0; i--) {
+			if (digits[i] < 9) {
+				digits[i]++;
+				return digits;
+			}
+			digits[i] = 0;
+			}
+		
+		int[] newNumber = new int [n+1];
+		newNumber[0] = 1;
+		
+		return newNumber;
+		}
+		
+		public static int MySqrt(int x) {
+			if (x == 0 || x == 1)
+				return x;
+			for (int i = 0; i <= x / 2; i++)
+				if (i * i <= x && ((i + 1) * (i + 1) > x || (i + 1) * (i + 1) < 0))
+					return i;
+			return 0;
+		}
+		
+		public static ListNode DeleteDuplicates(ListNode head) {
+		   ListNode current = head;
+			while (current != null && current.next != null) {
+				if (current.next.val == current.val) {
+					current.next = current.next.next;
+				} else {
+					current = current.next;
+				}
+			}
+			return head;
+		}
+		public static ListNode RemoveNthFromEnd(ListNode head, int n) {
+			if (head == null)
+				return null;
+			 if (head.next == null)
+				 return null;
+
+			ListNode ans = new ListNode(0);
+			ans.next = head;
+			ListNode before = ans.next;
+			ListNode after = ans.next;
+			ListNode tail = ans.next;
+			int i = 0;
+			while (tail.next != null)
+			{
+				i++;
+				tail = tail.next;
+				if (i > n - 1)
+				{
+				   after = after.next;
+				   if (i > n)
+					   before = before.next;
+				}
+			}
+			if (before.next == after.next)
+				return ans.next.next;
+			before.next = after.next;
+			return ans.next;
+		}
+		
         static void Main(string[] args)
         {
             IList<string> a = LetterCombinations("23");
