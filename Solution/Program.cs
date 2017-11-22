@@ -442,6 +442,46 @@ namespace Solution
 			return 0;
 		}
 		
+		public static ListNode DeleteDuplicates(ListNode head) {
+		   ListNode current = head;
+			while (current != null && current.next != null) {
+				if (current.next.val == current.val) {
+					current.next = current.next.next;
+				} else {
+					current = current.next;
+				}
+			}
+			return head;
+		}
+		public static ListNode RemoveNthFromEnd(ListNode head, int n) {
+			if (head == null)
+				return null;
+			 if (head.next == null)
+				 return null;
+
+			ListNode ans = new ListNode(0);
+			ans.next = head;
+			ListNode before = ans.next;
+			ListNode after = ans.next;
+			ListNode tail = ans.next;
+			int i = 0;
+			while (tail.next != null)
+			{
+				i++;
+				tail = tail.next;
+				if (i > n - 1)
+				{
+				   after = after.next;
+				   if (i > n)
+					   before = before.next;
+				}
+			}
+			if (before.next == after.next)
+				return ans.next.next;
+			before.next = after.next;
+			return ans.next;
+		}
+		
         static void Main(string[] args)
         {
             IList<string> a = LetterCombinations("23");
