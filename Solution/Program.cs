@@ -707,14 +707,11 @@ namespace Solution
 			if (rowIndex == 1)
 				return new List<int>() { 1, 1 };
 			List<int> ans = new List<int>() { 1, 1 };
-			List<int> list = new List<int>(ans);
 			for (int i = 0; i < rowIndex - 1; i++) 
 			{
-				ans.Add(1);
-				list = new List<int>(ans);
-				for (int j = 0; j < ans.Count() - 2; j++)
-					list[j + 1] = ans[j] + ans[j + 1];
-				ans = new List<int>(list);
+				ans.Insert(0, 1);
+				for (int j = 1; j < ans.Count() - 1; j++)
+					ans[j] = ans[j] + ans[j + 1];
 			}
 			return ans;
 		}
