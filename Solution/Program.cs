@@ -701,7 +701,23 @@ namespace Solution
 			}
 			return add > 0 ? add.ToString() + ans : ans;
 		}
-		
+		public IList<int> GetRow(int rowIndex) {        
+			if (rowIndex == 0)
+				return new List<int>() { 1 };
+			if (rowIndex == 1)
+				return new List<int>() { 1, 1 };
+			List<int> ans = new List<int>() { 1, 1 };
+			List<int> list = new List<int>(ans);
+			for (int i = 0; i < rowIndex - 1; i++) 
+			{
+				ans.Add(1);
+				list = new List<int>(ans);
+				for (int j = 0; j < ans.Count() - 2; j++)
+					list[j + 1] = ans[j] + ans[j + 1];
+				ans = new List<int>(list);
+			}
+			return ans;
+		}
         static void Main(string[] args)
         {
         }
