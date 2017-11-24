@@ -481,10 +481,229 @@ namespace Solution
 			before.next = after.next;
 			return ans.next;
 		}
+        public static void Merge(int[] nums1, int m, int[] nums2, int n)
+        {
+            int[] ans = new int[m + n];
+            int index1 = 0;
+            int index2 = 0;
+            while (index1 < m && index2 < n)
+            {
+                if (nums1[index1] > nums2[index2])
+                {
+                    ans[index1 + index2] = nums2[index2];
+                    index2++;
+                }
+                else
+                {
+                    ans[index1 + index2] = nums1[index1];
+                    index1++;
+                }
+            }
+            while (index1 < m)
+            {
+                ans[index1 + index2] = nums1[index1];
+                index1++;
+            }
+            while (index2 < n)
+            {
+                ans[index1 + index2] = nums2[index2];
+                index2++;
+            }
+            nums1 = ans;
+        }
+
+        public static int LengthOfLastWord(string s)
+        {
+            if (s == "")
+                return 0;
+            int end = s.Length - 1;
+            char c = s[end];
+            while (c == ' ' && end > 0)
+            {
+                c = s[--end];
+            }
+            if (end == 0)
+            {
+                if (c != ' ')
+                    return 1;
+                else return 0;
+            }
+            int ans = 1;
+            for (int i = end - 1; i >= 0; i--)
+            {
+                if (s[i] != ' ')
+                    ans++;
+                else
+                    break;
+            }
+            return ans;
+        }
+		public static IList<IList<int>> Generate(int numRows) {
+			IList<IList<int>> ans = new List<IList<int>>();
+			if (numRows == 0)
+				return ans;
+			if (numRows == 1)
+			{
+				ans.Add(new List<int>() {1});
+				return ans;
+			}
+			if (numRows == 2)
+			{
+				ans.Add(new List<int>() {1});
+				ans.Add(new List<int>() {1, 1});
+				return ans;
+			}
+			ans = Generate(numRows - 1);
+			List<int> lastRow = new List<int>() {1};
+			IList<int> sum = ans.Last();
+			for (int i = 0; i < sum.Count() - 1; i++)
+				lastRow.Add(sum[i] + sum[i+1]);
+			lastRow.Add(1);
+			ans.Add(lastRow);
+			return ans;
+		}
+		
+		/*public static bool IsSameTree(TreeNode p, TreeNode q) {
+			if (p == null || q == null)
+			{
+				if (p == null && q == null)
+					return true;
+				else
+					return false;
+			}
+			if (p.val != q.val)
+				return false;
+			return IsSameTree(p.left, q.left) && IsSameTree(p.right, q.right);
+		}*/
+		public static int RemoveDuplicates2(int[] nums) {
+			if (nums.Length == 0)
+				return 0;
+			int n = 0;
+			int i = 0;
+			for (int j = 1; j < nums.Length; j++)
+			{
+				if (nums[j] != nums[i])
+				{
+					i++;
+					nums[i] = nums[j];
+					n = 0;
+				}
+				else if (n == 0)
+				{
+					i++;
+					nums[i] = nums[j];
+					n++;
+				}
+			}
+			return i + 1;
+		}
+		
+		public static IList<IList<int>> Permute(int[] nums) {
+			List<IList<int>> ans = new List<IList<int>>();
+			if (nums.Length == 1) 
+			{
+				ans.Add(new List<int> { nums[0] });
+				return ans;
+			}
+			if (nums.Length == 2)
+			{
+				ans.Add(new List<int> { nums[0], nums[1] });
+				ans.Add(new List<int> { nums[1], nums[0] });
+				return ans;
+			}
+			for (int i = 0; i < nums.Length; i++)
+			{
+				IList<IList<int>> l = Permute(nums.ToList().Where((a, idx) => idx != i).ToArray());
+				for (int j = 0; j < l.Count(); j++)
+				{
+					l[j].Insert(0, nums[i]);
+					ans.Add(l[j]);
+				}
+			}
+			return ans;
+		}
+        public static bool IsAnagram(string a, string b)
+        {
+            int indexB = -1;
+            for (int i = 0; i < a.Length; i++)
+                if ((indexB = b.IndexOf(a[i])) != -1)
+                {
+                    b = b.Remove(indexB, 1);
+                }
+            if (b.Length == 0)
+                return true;
+            return false;
+        }
+		public int MaxProfit(int[] prices) {
+			int minprice = int.MaxValue;
+			int maxprofit = 0;
+			for (int i = 0; i < prices.Length; i++) {
+				if (prices[i] < minprice)
+					minprice = prices[i];
+				else if (prices[i] - minprice > maxprofit)
+					maxprofit = prices[i] - minprice;
+			}
+			return maxprofit;
+		}
+        /*public static bool HasPathSum(TreeNode root, int sum) {
+			if (root == null)
+				return false;
+			if (root.left == null && root.right == null)
+				return sum == root.val;
+			if (HasPathSum(root.left, sum - root.val))
+				return true;
+			if (HasPathSum(root.right, sum - root.val))
+				return true;
+			return false;
+		}
+		public IList<IList<int>> PathSum(TreeNode root, int sum) {
+			List<IList<int>> ans = new List<IList<int>>();
+			if (root == null)
+				return ans;
+			if (root.left == null && root.right == null) 
+			{
+				if (root.val == sum)
+					ans.Add(new List<int>() { root.val });
+				return ans;
+			}
+			List<IList<int>> subAns = PathSum(root.left, sum - root.val).ToList();
+			subAns.AddRange(PathSum(root.right, sum - root.val));
+			for (int i = 0; i < subAns.Count(); i++)
+			{
+				subAns[i].Insert(0, root.val);
+				ans.Add(subAns[i]);
+			}
+			return ans;
+		}*/
+		public int SingleNumber(int[] nums) {
+			int num = 0;
+			for (int i = 0; i < nums.Length; i++)
+				num ^= nums[i];
+			return num;
+		}
+		public string AddBinary(string a, string b) {
+			string ans = "";
+			int sum = 0;
+			int add = 0;
+			int ai = a.Length - 1;
+			int bi = b.Length - 1;
+			int aa = 0;
+			int ba = 0;
+			while (ai >= 0 || bi >=0)
+			{
+				aa = ai >= 0 ? Convert.ToInt32(a[ai].ToString()) : 0;
+				ba = bi >= 0 ? Convert.ToInt32(b[bi].ToString()) : 0;
+				sum = aa + ba + add;
+				ans = (sum % 2).ToString() + ans;
+				add = sum > 1 ? 1 : 0;
+				ai--;
+				bi--;
+			}
+			return add > 0 ? add.ToString() + ans : ans;
+		}
 		
         static void Main(string[] args)
         {
-            IList<string> a = LetterCombinations("23");
         }
     }
 }
