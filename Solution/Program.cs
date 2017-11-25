@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -715,6 +715,99 @@ namespace Solution
 			}
 			return ans;
 		}
+		public static bool CanJump(int[] nums)
+        {
+            if (nums.Length == 1)
+                return true;
+            if (nums.Length > 1)
+                if (nums[0] == 0)
+                    return false;
+
+            bool flag = false;
+            for (int i = nums[0]; i < nums.Length - 1;)
+            {
+                flag = false;
+                i += nums[i];
+                if (i >= nums.Length - 1)
+                    return true;
+                if (nums[i] == 0)
+                {
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        if (nums[j] > i - j)
+                        {
+                            flag = true;
+                            i = j + nums[j];
+                            break;
+                        }
+                    }
+                    if (!flag)
+                        return false;
+                }
+            }
+            return true;
+        }
+        public static bool IsValidSudoku(char[,] board)
+        {
+            char[] line = new char[9];
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                    line[j] = board[i, j];
+                if (!IsValidLine(line))
+                    return false;
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                    line[j] = board[j, i];
+                if (!IsValidLine(line))
+                    return false;
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    for (int k = 0; k < 3; k++)
+                    {
+                        line[k * 3] = board[3 * i + k, 3 * j];
+                        line[k * 3 + 1] = board[3 * i + k, 3 * j + 1];
+                        line[k * 3 + 2] = board[3 * i + k, 3 * j + 2];
+                    }
+                    if (!IsValidLine(line))
+                        return false;
+                }
+            }
+            return true;
+        }
+        public static bool IsValidLine(char[] line)
+        {
+            bool[] nums = new bool[9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                if (line[i] == '.')
+                    continue;
+                if (nums[int.Parse(line[i].ToString()) - 1])
+                    return false;
+                else
+                    nums[int.Parse(line[i].ToString()) - 1] = true;
+            }
+            return true;
+        }
+        public int ClimbStairs(int n)
+        {
+            int a = 0;
+            int b = 1;
+            int c;
+            for (int i = 0; i < n; i++)
+            {
+                c = b;
+                b += a;
+                a = c;
+            }
+            return b;
+        }
         static void Main(string[] args)
         {
         }
